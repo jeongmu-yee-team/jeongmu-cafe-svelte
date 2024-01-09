@@ -1,13 +1,15 @@
 <script lang="ts">
+  import NavBar from '$components/layouts/NavBar.svelte';
+  import { twMerge } from 'tailwind-merge';
+
+  const astyle = 'rounded-lg';
+  const bstyle = 'bg-orange-400 text-5xl';
 </script>
 
 <svelte:head>
-	<title>Intro</title>
+  <title>Intro</title>
 </svelte:head>
 
-<h1 class="text-5xl">Welcome to SvelteKit</h1>
-<p>
-	<span>Visit</span>
-	<a class="rounded-lg bg-slate-400 p-1" href="https://kit.svelte.dev">kit.svelte.dev</a>
-	<span>to read the documentation</span>
-</p>
+<NavBar />
+
+<div class={twMerge(astyle, bstyle)}>Hello world~!</div>
