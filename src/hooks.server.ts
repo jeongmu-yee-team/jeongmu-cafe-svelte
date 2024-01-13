@@ -6,13 +6,12 @@ export const handle: Handle = async ({ event, resolve }) => {
     return new Response('관리자 페이지', { status: 200 });
   }
 
-  const response = await resolve(event);
-  return response;
+  return await resolve(event);
 };
 
 export const handleError: HandleServerError = async ({ event, status }) => {
   return {
-    message: '페이지에 이상이 생겼습니다.',
-    code: `${status} + ${event.url.pathname}`,
+    message: '페이지를 로드하는데 문제가 발생하였습니다.',
+    code: `${status}@${event.url}@${event.getClientAddress()}`,
   };
 };
