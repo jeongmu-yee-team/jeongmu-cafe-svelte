@@ -1,6 +1,6 @@
 {
   "name": "jeongmu-cafe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@sveltejs/adapter-auto": "^3.1.0",
     "@sveltejs/adapter-netlify": "^3.0.1",
+    "@sveltejs/adapter-node": "^4.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@types/bcrypt": "^5.0.2",
     "@types/eslint": "8.56.0",
@@ -55,6 +56,6 @@
   },
   "type": "module",
   "engines": {
-    "node": "20.10.0"
+    "node": "^20.10.0"
   }
 }
