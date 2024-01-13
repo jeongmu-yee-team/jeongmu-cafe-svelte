@@ -1,13 +1,18 @@
 <script lang="ts">
+  import IntroModal from '$components/modals/IntroModal.svelte';
+  import NavBar from '$components/layouts/NavBar.svelte';
+
+  let introModalToggle: boolean = false;
+  function handleIntroModal() {
+    introModalToggle = !introModalToggle;
+  }
 </script>
 
 <svelte:head>
-	<title>Intro</title>
+  <title>Intro</title>
 </svelte:head>
 
-<h1 class="text-5xl">Welcome to SvelteKit</h1>
-<p>
-	<span>Visit</span>
-	<a class="rounded-lg bg-slate-400 p-1" href="https://kit.svelte.dev">kit.svelte.dev</a>
-	<span>to read the documentation</span>
-</p>
+<main class="font-cafe">
+  <IntroModal toggleModal={handleIntroModal} modalStatus={introModalToggle} />
+  <NavBar />
+</main>
