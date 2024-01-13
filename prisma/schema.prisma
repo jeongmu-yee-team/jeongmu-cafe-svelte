@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Admins {
   id         String      @id @db.VarChar(70)
   password   String      @db.VarChar(255)
@@ -20,7 +19,6 @@ model Admins {
   @@map("admins")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model AdminsLog {
   id         Int      @id @default(autoincrement())
   admin_id   String   @db.VarChar(70)
@@ -36,7 +34,6 @@ model AdminsLog {
   @@map("admins_log")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model OptionType {
   id              Int          @id @default(autoincrement())
   product_type_id Int?
@@ -50,14 +47,12 @@ model OptionType {
   @@map("option_type")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Order {
   id             Int         @id @default(autoincrement())
   accept         Boolean     @default(false)
   payment_status String      @db.VarChar(70)
   payment_method String      @db.VarChar(70)
   order_number   Int
-  cart_id        Int         @unique(map: "cart_id")
   created_at     DateTime    @default(now()) @db.Timestamp(0)
   updated_at     DateTime    @default(now()) @db.Timestamp(0)
   order_item     OrderItem[]
@@ -65,7 +60,6 @@ model Order {
   @@map("order")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model OrderItem {
   id          Int         @id @default(autoincrement())
   order_id    Int?
@@ -84,7 +78,6 @@ model OrderItem {
   @@map("order_item")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Product {
   id                    Int          @id @default(autoincrement())
   product_name          String       @db.VarChar(70)
@@ -100,7 +93,6 @@ model Product {
   @@map("product")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model ProductType {
   id          Int          @id @default(autoincrement())
   type_name   String       @db.VarChar(70)
@@ -110,4 +102,14 @@ model ProductType {
   product     Product[]
 
   @@map("product_type")
+}
+
+model PageImage {
+  id          Int      @id @default(autoincrement())
+  image_title String?  @db.VarChar(70)
+  image_url   String?  @db.VarChar(255)
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
+
+  @@map("page_image")
 }
