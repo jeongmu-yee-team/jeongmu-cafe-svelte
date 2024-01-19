@@ -8,7 +8,7 @@ export function getProducts() {
         product_name: true,
         product_thumbnail_url: true,
         product_price: true,
-        product_type: true,
+        product_type_id: true,
       },
     }),
     client.product.count(),
