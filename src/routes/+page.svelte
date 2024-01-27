@@ -1,7 +1,7 @@
 <script lang="ts">
   import IntroModal from '$components/modals/IntroModal.svelte';
   import NavBar from '$components/layouts/NavBar.svelte';
-  import Menu from '$components/layouts/Menu.svelte';
+  import Card from '$components/cards/Card.svelte';
 
   let introModalToggle: boolean = false;
   function handleIntroModal() {
@@ -9,16 +9,25 @@
   }
 </script>
 
+<!-- 키오스크 화면 임의로 조정 실제 키오스크에서 사용시 style삭제 -->
+<style>
+  main {
+    width: 768px;
+    max-width: 100%;
+    height: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+
 <svelte:head>
   <title>Intro</title>
 </svelte:head>
 
-<main class="font-cafe">
+<main class="border-black-500 relative border-4 font-cafe">
   <IntroModal toggleModal={handleIntroModal} modalStatus={introModalToggle} />
-  <div class="bg-white">
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <NavBar />
-      <Menu />
-    </div>
+  <div class="mx-auto justify-center">
+    <NavBar />
+    <Card />
   </div>
 </main>
