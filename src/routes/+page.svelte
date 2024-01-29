@@ -1,7 +1,7 @@
 <script lang="ts">
   import IntroModal from '$components/modals/IntroModal.svelte';
   import NavBar from '$components/layouts/NavBar.svelte';
-  import Card from '$components/cards/Card.svelte';
+  import Menu from '$src/components/layouts/Menu.svelte';
 
   let introModalToggle: boolean = false;
   function handleIntroModal() {
@@ -28,6 +28,6 @@
   <IntroModal toggleModal={handleIntroModal} modalStatus={introModalToggle} />
   <div class="mx-auto justify-center">
     <NavBar />
-    <Card />
+    <Menu />
   </div>
 </main>
