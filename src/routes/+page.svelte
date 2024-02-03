@@ -28,6 +28,6 @@
   <IntroModal toggleModal={handleIntroModal} modalStatus={introModalToggle} />
   <div class="mx-auto justify-center">
     <NavBar />
-    <Menu />
+    <Menu pageSize={9} />
   </div>
 </main>

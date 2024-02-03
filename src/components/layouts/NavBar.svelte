@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { TProductType } from '$lib/server/modules/products';
   import { useSWR } from 'sswr';
-  import { selectedProductTypeId } from '$lib/store';
+  import { selectedProductTypeId } from '$lib/client/store';
 
   interface IResponse {
     status: number;
@@ -9,7 +9,13 @@
     productType: TProductType;
   }
 
-  const { data: navData, isLoading, error } = useSWR<IResponse>('/api/products-type');
+  const { data: navData } = useSWR<IResponse>('/api/products-type');
+
+  navData.subscribe((data) => {
+    if (data) {
+      selectedProductTypeId.set(data.productType[0].id);
+    }
+  });
 
   function handleButtonClick(productTypeId: number) {
     selectedProductTypeId.set(productTypeId);
@@ -18,14 +24,12 @@
 
 <nav>
   {#if $navData}
-    <div class="ml-2 mr-2 mt-2 flex flex-row justify-around rounded-lg bg-yellow-200 py-3">
+    <div class="m-1 flex h-14 justify-around rounded-lg bg-yellow-200">
       {#each $navData.productType as item}
-        <button
-          on:click={() => handleButtonClick(item.id)}
-          class="mb-1 border-black text-xl font-bold
-          {`${$selectedProductTypeId === item.id ? 'scale-110 transform border-b-4 duration-200' : ''}`}"
-        >
-          {item.type_name}
+        <button on:click={() => handleButtonClick(item.id)} class="text-xl font-bold">
+          <div class={`${$selectedProductTypeId === item.id && 'scale-110 border-b-4 border-black duration-200'}`}>
+            {item.type_name}
+          </div>
         </button>
       {/each}
     </div>

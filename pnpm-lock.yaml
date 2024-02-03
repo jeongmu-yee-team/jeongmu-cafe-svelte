@@ -11,6 +11,9 @@ dependencies:
   '@prisma/client':
     specifier: ^5.8.0
     version: 5.8.0(prisma@5.8.0)
+  '@splidejs/svelte-splide':
+    specifier: ^0.2.9
+    version: 0.2.9
   '@sveltejs/kit':
     specifier: ^2.3.2
     version: 2.3.2(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.8)(vite@5.0.11)
@@ -629,6 +632,16 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
+
+  /@splidejs/splide@4.1.4:
+    resolution: {integrity: sha512-5I30evTJcAJQXt6vJ26g2xEkG+l1nXcpEw4xpKh0/FWQ8ozmAeTbtniVtVmz2sH1Es3vgfC4SS8B2X4o5JMptA==}
+    dev: false
+
+  /@splidejs/svelte-splide@0.2.9:
+    resolution: {integrity: sha512-04ekJnDIJKEAhklKQMhkg4Yx0Ihtkk18eA9JeHPON0lDTngQxlOYdEYTJWH2UON45VxmVqoLHv04I++JphO36w==}
+    dependencies:
+      '@splidejs/splide': 4.1.4
+    dev: false
 
   /@sveltejs/adapter-auto@3.1.0(@sveltejs/kit@2.3.2):
     resolution: {integrity: sha512-igS5hqCwdiXWb8NoWzThKCVQQj9tKgUkbTtzfxBPgSLOyFjkiGNDX0SgCoY2QIUWBqOkfGTOqGlrW5Ynw9oUvw==}
