@@ -7,7 +7,7 @@
 <button
   on:click={toggleModal}
   disabled={modalStatus}
-  class=" absolute flex h-[100vh] w-full items-center justify-center bg-gray-500 disabled:hidden"
+  class="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-gray-500 disabled:hidden"
 >
   <img src={IntroImage} alt="IntroImage" />
 </button>
