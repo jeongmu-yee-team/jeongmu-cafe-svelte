@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
   import { fade } from 'svelte/transition';
-  import { Chart } from 'chart.js/auto';
+  import Chart from 'chart.js/auto';
   import { goto } from '$app/navigation';
 
   interface Product {
@@ -150,6 +150,13 @@
         break;
     }
   });
+
+  function logout() {
+    const confirmLogout = confirm('로그아웃 하시겠습니까?');
+    if (confirmLogout) {
+      goto('/login');
+    }
+  }
 </script>
 
 <main class="flex min-h-screen bg-gray-200">
@@ -181,6 +188,7 @@
         </button>
       </li>
     </ul>
+    <button on:click={logout} class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
   </nav>
 
   <div class="w-4/5 p-8">
@@ -190,7 +198,6 @@
 
     <div class="w-4/5 p-8">
       {#if selectedNavItem === 'dashboard'}
-        <!-- 대시보드 콘텐츠 -->
         <h2 class="mb-4 text-2xl font-semibold">키오스크 판매 금액</h2>
         <ul>
           {#each kioskList as { id, name, totalSales }, _ (id)}

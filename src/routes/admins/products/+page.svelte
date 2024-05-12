@@ -148,6 +148,13 @@
         break;
     }
   });
+
+  function logout() {
+    const confirmLogout = confirm('로그아웃 하시겠습니까?');
+    if (confirmLogout) {
+      goto('/login');
+    }
+  }
 </script>
 
 <main class="flex min-h-screen bg-gray-200">
@@ -179,6 +186,7 @@
         </button>
       </li>
     </ul>
+    <button on:click={logout} class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
   </nav>
 
   <div class="w-4/5 p-8">

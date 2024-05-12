@@ -1,15 +1,31 @@
 <script lang="ts">
   import NoImage from '$assets/no-image.png';
   import { twMerge } from 'tailwind-merge';
+  import { createEventDispatcher } from 'svelte';
 
   export let cardImage: string | null;
   export let cardImageAlt: string = '카드 이미지';
   export let className: string = '';
+
+  const dispatch = createEventDispatcher();
+
+  function handleClick() {
+    dispatch('click', {});
+  }
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      handleClick();
+    }
+  }
 </script>
 
 <div
+  on:click={handleClick}
+  on:keydown={handleKeydown}
+  tabindex="0"
+  role="button"
   class={twMerge(
-    'active:transtion group rounded-lg border-2 text-center duration-75 ease-out active:scale-90 active:shadow-2xl',
+    'active:transtion group h-[31vh] rounded-lg border-2 text-center duration-75 ease-out active:scale-90 active:shadow-2xl',
     className,
   )}
 >

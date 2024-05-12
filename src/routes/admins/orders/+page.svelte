@@ -54,7 +54,6 @@
   onMount(() => {});
 
   onMount(() => {
-    // 초기 마운트 시 URL에 따라 선택된 네비게이션 항목 설정
     const path = window.location.pathname;
     if (path.includes('/admins/dashboard')) {
       selectedNavItem = 'dashboard';
@@ -70,7 +69,6 @@
   });
 
   afterUpdate(() => {
-    // 네비게이션 항목이 변경될 때 URL 업데이트
     switch (selectedNavItem) {
       case 'dashboard':
         goto('/admins/dashboard');
@@ -89,6 +87,13 @@
         break;
     }
   });
+
+  function logout() {
+    const confirmLogout = confirm('로그아웃 하시겠습니까?');
+    if (confirmLogout) {
+      goto('/login');
+    }
+  }
 </script>
 
 <main class="flex min-h-screen bg-gray-200">
@@ -120,6 +125,7 @@
         </button>
       </li>
     </ul>
+    <button on:click={logout} class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
   </nav>
 
   <div class="w-4/5 p-8">
@@ -127,7 +133,6 @@
       <h1 class="text-3xl font-semibold">관리자 페이지</h1>
     </div>
 
-    <!-- 메인 콘텐츠 영역 -->
     <div class="w-4/5 p-8">
       {#if selectedNavItem === 'orders'}
         <section class="mb-8">
