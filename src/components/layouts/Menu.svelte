@@ -7,6 +7,7 @@
   export let pageSize: number;
   export let menuProductsData: TProducts | undefined;
   export let menuProductTypeId: number;
+  export let handleProductSelect: (id: number) => void;
 
   let productSlide: TProducts[] = [];
 
@@ -31,9 +32,13 @@
       <Splide aria-label="Menu Slide" options={{ drag: false }}>
         {#each productSlide as pageProduct}
           <SplideSlide class="p-4">
-            <div class="grid min-h-[638.9px] grid-flow-row grid-cols-3 gap-2">
+            <div class="grid grid-flow-row grid-cols-3 gap-2">
               {#each pageProduct as products}
-                <Card cardImage={products.product_thumbnail_url} cardImageAlt="상품 사진">
+                <Card
+                  on:click={() => handleProductSelect(products.id)}
+                  cardImage={products.product_thumbnail_url}
+                  cardImageAlt="상품 사진"
+                >
                   <p slot="title" class="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold">
                     {products.product_name}
                   </p>
