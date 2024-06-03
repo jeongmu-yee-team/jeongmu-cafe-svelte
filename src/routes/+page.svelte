@@ -26,19 +26,18 @@
     selectedType = id;
   }
 
-  let selectedProducts: TProducts = []; // 선택된 상품을 저장할 배열
-  let quantity: number;
+  let orderedProducts: Array<{ product_thumbnail_url: string | null; product_name: string; product_price: number }> =
+    [];
 
-  function handleProductSelect(id: number) {
-    const existingProduct = selectedProducts.find((product) => product.id === id);
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      const selectedProduct = $productsData?.products.find((product) => product.id === id);
-      if (selectedProduct) {
-        selectedProducts = [...selectedProducts, { id, quantity: 1, product: selectedProduct }];
-      }
-    }
+  function addToOrder(product: { product_thumbnail_url: string | null; product_name: string; product_price: number }) {
+    orderedProducts = [...orderedProducts, product];
+  }
+
+  let cart: Array<{ product_thumbnail_url: string | null; product_name: string; product_price: number }> = [];
+
+  // 장바구니에 상품 추가 함수
+  function addToCart(product: { product_thumbnail_url: string | null; product_name: string; product_price: number }) {
+    cart = [...cart, product];
   }
 </script>
 
@@ -63,13 +62,8 @@
     <IntroModal toggleModal={handleIntroModal} modalStatus={introModalToggle} />
     <div class="mx-auto flex h-full flex-col justify-center">
       <NavBar navProductsData={$productsData.product_type} navProductTypeId={selectedType} {handleTypeChange} />
-      <Menu
-        pageSize={6}
-        menuProductsData={$productsData.products}
-        menuProductTypeId={selectedType}
-        {handleProductSelect}
-      />
-      <Order className="flex-grow bg-gray-100" {selectedProducts} />
+      <Menu pageSize={6} menuProductsData={$productsData.products} menuProductTypeId={selectedType} {addToCart} />
+      <Order {cart} />
     </div>
   {:else}
     <!-- 데이터 로딩 중 표시 -->

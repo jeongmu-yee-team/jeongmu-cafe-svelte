@@ -1,25 +1,21 @@
 <script lang="ts">
-  import type { TProducts } from '$src/lib/server/modules/products';
-
-  export let className: string = '';
-  export let selectedProducts: TProducts;
-  let quantity: number;
-
-  function increaseQuantity(productId: number) {}
-
-  function decreaseQuantity(productId: number) {}
+  export let cart: Array<{ product_thumbnail_url: string | null; product_name: string; product_price: number }>;
 </script>
 
-<div class={className}>
-  <div class="product-list grid grid-flow-col grid-cols-4">
-    {#each selectedProducts as product}
-      <div>
-        <img src={product.product_thumbnail_url} alt="상품이미지" />
-        {product.product_name} - {product.product_price}원
-        <div>수량: {quantity}</div>
-        <button>+</button>
-        <button>-</button>
-      </div>
-    {/each}
-  </div>
+<div>
+  {#if cart.length > 0}
+    <ul>
+      {#each cart as { product_name, product_price, product_thumbnail_url }, index (index)}
+        <li class="flex items-center justify-between p-2">
+          <img src={product_thumbnail_url} alt={product_name} class="h-20 w-20 object-cover" />
+          <div>
+            <p>{product_name}</p>
+            <p>{product_price}원</p>
+          </div>
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <p>장바구니가 비어 있습니다.</p>
+  {/if}
 </div>

@@ -25,7 +25,7 @@
   tabindex="0"
   role="button"
   class={twMerge(
-    'active:transtion group h-[31vh] rounded-lg border-2 text-center duration-75 ease-out active:scale-90 active:shadow-2xl',
+    'active:transtion group rounded-lg border-2 text-center duration-75 ease-out active:scale-90 active:shadow-2xl',
     className,
   )}
 >

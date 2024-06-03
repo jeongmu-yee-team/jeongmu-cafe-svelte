@@ -7,7 +7,6 @@
   export let pageSize: number;
   export let menuProductsData: TProducts | undefined;
   export let menuProductTypeId: number;
-  export let handleProductSelect: (id: number) => void;
 
   let productSlide: TProducts[] = [];
 
@@ -16,14 +15,21 @@
     const filteredData = menuProductsData.filter((item) => item.product_type_id === menuProductTypeId);
     for (let pageIndex = 0; pageIndex < Math.ceil(filteredData.length / pageSize); pageIndex++) {
       productSlide.push([]);
-      for (let itemIndex = 0; itemIndex < pageSize; itemIndex++) {
-        if (pageIndex * pageSize + itemIndex > filteredData.length - 1) {
-          break;
-        }
+      for (
+        let itemIndex = 0;
+        itemIndex < pageSize && pageIndex * pageSize + itemIndex < filteredData.length;
+        itemIndex++
+      ) {
         productSlide[pageIndex].push(filteredData[pageIndex * pageSize + itemIndex]);
       }
     }
   }
+
+  export let addToCart: (product: {
+    product_thumbnail_url: string | null;
+    product_name: string;
+    product_price: number;
+  }) => void;
 </script>
 
 <div class="border-b-4 bg-white">
@@ -31,18 +37,18 @@
     {#if productSlide}
       <Splide aria-label="Menu Slide" options={{ drag: false }}>
         {#each productSlide as pageProduct}
-          <SplideSlide class="p-4">
+          <SplideSlide>
             <div class="grid grid-flow-row grid-cols-3 gap-2">
-              {#each pageProduct as products}
+              {#each pageProduct as product}
                 <Card
-                  on:click={() => handleProductSelect(products.id)}
-                  cardImage={products.product_thumbnail_url}
+                  on:click={() => addToCart(product)}
+                  cardImage={product.product_thumbnail_url}
                   cardImageAlt="상품 사진"
                 >
                   <p slot="title" class="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold">
-                    {products.product_name}
+                    {product.product_name}
                   </p>
-                  <p slot="content" class="p-2 font-bold text-orange-600">{products.product_price}원</p>
+                  <p slot="content" class="p-2 font-bold text-orange-600">{product.product_price}원</p>
                 </Card>
               {/each}
             </div>

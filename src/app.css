@@ -64,7 +64,6 @@
     src: url('/fonts/DoHyeon-Regular.ttf') format('woff2');
   }
 }
-
 .splide {
-  padding-top: 1rem;
+  padding-top: 1em;
 }
