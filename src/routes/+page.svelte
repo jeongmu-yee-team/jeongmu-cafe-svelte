@@ -49,6 +49,10 @@
       cart = updatedCart;
     }
   }
+
+  function removeFromCart(productName: string) {
+    cart = cart.filter((item) => item.product_name !== productName);
+  }
 </script>
 
 <style>
@@ -71,7 +75,7 @@
     <div class="mx-auto flex h-full flex-col">
       <NavBar navProductsData={$productsData.product_type} navProductTypeId={selectedType} {handleTypeChange} />
       <Menu pageSize={6} menuProductsData={$productsData.products} menuProductTypeId={selectedType} {addToCart} />
-      <Order {cart} />
+      <Order {cart} {removeFromCart} />
     </div>
   {:else}
     <p>Loading...</p>
