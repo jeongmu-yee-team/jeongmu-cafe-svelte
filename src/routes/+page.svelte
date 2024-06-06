@@ -26,22 +26,31 @@
     selectedType = id;
   }
 
-  let orderedProducts: Array<{ product_thumbnail_url: string | null; product_name: string; product_price: number }> =
-    [];
+  let cart: Array<{
+    product_thumbnail_url: string | null;
+    product_name: string;
+    product_price: number;
+    quantity: number;
+  }> = [];
 
-  function addToOrder(product: { product_thumbnail_url: string | null; product_name: string; product_price: number }) {
-    orderedProducts = [...orderedProducts, product];
-  }
-
-  let cart: Array<{ product_thumbnail_url: string | null; product_name: string; product_price: number }> = [];
-
-  // 장바구니에 상품 추가 함수
   function addToCart(product: { product_thumbnail_url: string | null; product_name: string; product_price: number }) {
-    cart = [...cart, product];
+    let updated = false;
+    const updatedCart = cart.map((item) => {
+      if (item.product_name === product.product_name) {
+        updated = true; // 상품을 업데이트 했음을 표시
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
+
+    if (!updated) {
+      cart = [...updatedCart, { ...product, quantity: 1 }];
+    } else {
+      cart = updatedCart;
+    }
   }
 </script>
 
-<!-- 키오스크 화면 임의로 조정 실제 키오스크에서 사용시 style삭제 -->
 <style>
   main {
     width: 768px;
@@ -58,15 +67,13 @@
 
 <main class="border-black-500 relative border-4 font-cafe">
   {#if $productsData}
-    <!-- 데이터 로딩이 완료된 경우에만 내부 컴포넌트 렌더링 -->
     <IntroModal toggleModal={handleIntroModal} modalStatus={introModalToggle} />
-    <div class="mx-auto flex h-full flex-col justify-center">
+    <div class="mx-auto flex h-full flex-col">
       <NavBar navProductsData={$productsData.product_type} navProductTypeId={selectedType} {handleTypeChange} />
       <Menu pageSize={6} menuProductsData={$productsData.products} menuProductTypeId={selectedType} {addToCart} />
       <Order {cart} />
     </div>
   {:else}
-    <!-- 데이터 로딩 중 표시 -->
     <p>Loading...</p>
   {/if}
 </main>
