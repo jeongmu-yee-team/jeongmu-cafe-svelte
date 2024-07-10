@@ -1,22 +1,25 @@
 type MethodType = 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-interface IRequestState<T> {
+interface IFetchState<T> {
   data?: T;
   isLoading?: boolean;
   error?: Error;
 }
-type RequestReturnType<T> = [
-  (formData: object, method?: MethodType, apiURL?: string) => void,
-  () => void,
-  IRequestState<T>,
-];
+type MutationReturnType<T> = {
+  mutation: (formData: object, method?: MethodType, apiURL?: string) => void;
+  clear: () => void;
+  data?: T;
+  isLoading?: boolean;
+  error?: Error;
+};
 
-export default function requestData<T = object>(url: string): RequestReturnType<T> {
-  const state: IRequestState<T> = { data: undefined, isLoading: false, error: undefined };
+export default function requestData<T = object>(key: string): MutationReturnType<T> {
+  const state: IFetchState<T> = { data: undefined, isLoading: false, error: undefined };
 
-  function sendRequest(formData: object, method: MethodType = 'POST', apiURL = url) {
-    fetch(apiURL, {
+  function mutation(formData: object, method: MethodType = 'POST', endpoint = key) {
+    fetch(endpoint, {
       method,
+      mode: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -39,5 +42,5 @@ export default function requestData<T = object>(url: string): RequestReturnType<
     state.error = undefined;
   }
 
-  return [sendRequest, clear, state];
+  return { mutation, clear, ...state };
 }

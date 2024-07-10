@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
+
   import { goto } from '$app/navigation';
 
   interface Product {
@@ -100,59 +101,47 @@
   <nav class="w-1/5 bg-gray-800 p-8 text-white">
     <ul>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('dashboard')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          대시보드
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('dashboard')}> 대시보드 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('options')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          키오스크 설정
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('options')}> 키오스크 설정 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('products')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          상품 관리
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('products')}> 상품 관리 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('orders')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          주문 목록
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('orders')}> 주문 목록 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('category')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          카테고리 추가
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('category')}> 카테고리 추가 </button>
       </li>
     </ul>
-    <button on:click={logout} class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
+    <button class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300" on:click={logout}> 로그아웃 </button>
   </nav>
 
-  <div class="w-4/5 p-8">
-    <div class="mb-8 bg-gray-800 p-4 text-white">
-      <h1 class="text-3xl font-semibold">관리자 페이지</h1>
-    </div>
-
+  <div>
     <div class="w-4/5 p-8">
-      {#if selectedNavItem === 'orders'}
-        <section class="mb-8">
-          <h2 class="mb-4 text-2xl font-semibold">주문 목록</h2>
-          {#each orders as order (order.id)}
-            <div class="mb-4 border p-6">
-              <p class="text-lg font-semibold">주문 번호: {order.id}</p>
-              <p class="text-gray-500">주문일: {order.date.toLocaleString()}</p>
-              <ul>
-                {#each order.products as product}
-                  <li>
-                    {product.name} - {product.price}원
-                  </li>
-                {/each}
-              </ul>
-              <p class="mt-2">총 주문 금액: {calculateTotalSales(order)}원</p>
-            </div>
-          {/each}
-        </section>
-      {/if}
+      <div class="w-4/5 p-8">
+        {#if selectedNavItem === 'orders'}
+          <section class="mb-8">
+            <h2 class="mb-4 text-2xl font-semibold">주문 목록</h2>
+            {#each orders as order (order.id)}
+              <div class="mb-4 border p-6">
+                <p class="text-lg font-semibold">주문 번호: {order.id}</p>
+                <p class="text-gray-500">주문일: {order.date.toLocaleString()}</p>
+                <ul>
+                  {#each order.products as product}
+                    <li>
+                      {product.name} - {product.price}원
+                    </li>
+                  {/each}
+                </ul>
+                <p class="mt-2">총 주문 금액: {calculateTotalSales(order)}원</p>
+              </div>
+            {/each}
+          </section>
+        {/if}
+      </div>
     </div>
   </div>
 </main>

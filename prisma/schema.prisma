@@ -29,14 +29,24 @@ model admins_log {
   admins     admins   @relation(fields: [admin_id], references: [id], onDelete: NoAction)
 }
 
+model junc_option_order {
+  option_type_id Int
+  order_id       Int
+  option_type    option_type @relation(fields: [option_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order_item     order_item  @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([option_type_id, order_id])
+}
+
 model option_type {
-  id              Int           @id @default(autoincrement())
-  product_type_id Int?
-  type_name       String        @unique @db.VarChar(50)
-  created_at      DateTime      @default(now()) @db.Timestamp(6)
-  updated_at      DateTime      @default(now()) @db.Timestamp(6)
-  product_type    product_type? @relation(fields: [product_type_id], references: [id])
-  order_item      order_item[]
+  id                Int                 @id @default(autoincrement())
+  product_type_id   Int?
+  type_name         String              @unique @db.VarChar(50)
+  created_at        DateTime            @default(now()) @db.Timestamp(6)
+  updated_at        DateTime            @default(now()) @db.Timestamp(6)
+  junc_option_order junc_option_order[]
+  product_type      product_type?       @relation(fields: [product_type_id], references: [id])
+  order_item        order_item[]
 }
 
 model order {
@@ -51,16 +61,17 @@ model order {
 }
 
 model order_item {
-  id          Int          @id @default(autoincrement())
-  order_id    Int?
-  product_id  Int?
-  option_id   Int?
-  memo        String?      @default("") @db.VarChar(255)
-  created_at  DateTime     @default(now()) @db.Timestamp(6)
-  updated_at  DateTime     @default(now()) @db.Timestamp(6)
-  option_type option_type? @relation(fields: [option_id], references: [id])
-  order       order?       @relation(fields: [order_id], references: [id], onDelete: NoAction)
-  product     product?     @relation(fields: [product_id], references: [id])
+  id                Int                 @id @default(autoincrement())
+  order_id          Int?
+  product_id        Int?
+  option_id         Int?
+  memo              String?             @default("") @db.VarChar(255)
+  created_at        DateTime            @default(now()) @db.Timestamp(6)
+  updated_at        DateTime            @default(now()) @db.Timestamp(6)
+  junc_option_order junc_option_order[]
+  option_type       option_type?        @relation(fields: [option_id], references: [id])
+  order             order?              @relation(fields: [order_id], references: [id], onDelete: NoAction)
+  product           product?            @relation(fields: [product_id], references: [id])
 }
 
 model page_image {

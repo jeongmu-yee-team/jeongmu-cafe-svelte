@@ -5,6 +5,9 @@ interface IResponseJsonData {
   status?: number;
 }
 
+/**
+ * @deprecated
+ */
 export default function responseJson({ jsonData, jsonDataKey, message, status }: IResponseJsonData): Response {
   const response_status: number = status ? status : 200;
   let response = Object.assign({ status: response_status }, { message: message ? message : 'success' });

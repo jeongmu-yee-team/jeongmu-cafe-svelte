@@ -1,10 +1,11 @@
 import { type JSONSchemaType } from 'ajv';
-interface IAuthSchema {
+
+export interface IPostAuthSchema {
   user_id: string;
   password: string;
 }
 
-const AuthSchema: JSONSchemaType<IAuthSchema> = {
+export const PostAuthSchema: JSONSchemaType<IPostAuthSchema> = {
   type: 'object',
   properties: {
     user_id: { type: 'string' },
@@ -13,4 +14,3 @@ const AuthSchema: JSONSchemaType<IAuthSchema> = {
   required: ['user_id', 'password'],
   additionalProperties: false,
 };
-export default AuthSchema;

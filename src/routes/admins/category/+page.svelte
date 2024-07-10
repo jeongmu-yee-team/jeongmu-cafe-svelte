@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
+
   import { goto } from '$app/navigation';
 
   interface Product {
@@ -120,32 +121,22 @@
   <nav class="w-1/5 bg-gray-800 p-8 text-white">
     <ul>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('dashboard')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          대시보드
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('dashboard')}> 대시보드 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('options')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          키오스크 설정
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('options')}> 키오스크 설정 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('products')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          상품 관리
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('products')}> 상품 관리 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('orders')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          주문 목록
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('orders')}> 주문 목록 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('category')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          카테고리 추가
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('category')}> 카테고리 추가 </button>
       </li>
     </ul>
-    <button on:click={logout} class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
+    <button class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300" on:click={logout}> 로그아웃 </button>
   </nav>
 
   <div class="w-4/5 p-8">
@@ -158,11 +149,10 @@
         <section class="mb-8">
           <h2 class="mb-4 text-2xl font-semibold">카테고리 추가</h2>
           <form class="flex items-center">
-            <input type="text" bind:value={newCategoryName} class="mr-2 border p-4" placeholder="카테고리 이름" />
+            <input class="mr-2 border p-4" placeholder="카테고리 이름" type="text" bind:value={newCategoryName} />
             <button
               class="transform rounded bg-green-500 px-6 py-3 text-lg text-white transition duration-300 hover:scale-105 hover:shadow-md"
-              on:click={addCategory}
-            >
+              on:click={addCategory}>
               추가
             </button>
           </form>

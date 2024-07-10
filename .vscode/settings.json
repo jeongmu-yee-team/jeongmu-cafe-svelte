@@ -1,7 +1,6 @@
 {
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "svelte"],
+  "eslint.validate": ["javascript", "typescript", "svelte"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
@@ -9,7 +8,7 @@
     "editor.defaultFormatter": "Prisma.prisma"
   },
   "[svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -22,18 +21,5 @@
   },
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "tailwindCSS.experimental.classRegex": [
-    "tw([^])",
-    "tw=\"([^\"])",
-    "tw={\"([^\"}])",
-    "tw.w+([^])",
-    "tw(.?)([^])",
-    "tw`([^`]*)",
-    "tw()`([^`]*)",
-    "tw`([^`]*)", // tw`...`
-    "tw\\.[^`]+`([^`]*)`", // tw.xxx<xxx>`...`
-    "tw\\(.*?\\).*?`([^`]*)", // tw(Component)<xxx>`...`
-    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-  ]
+  }
 }
