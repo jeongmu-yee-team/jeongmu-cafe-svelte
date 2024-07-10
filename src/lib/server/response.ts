@@ -1,3 +1,4 @@
 export interface IResponse {
-  message: string;
+  ok: boolean;
+  message?: string;
 }

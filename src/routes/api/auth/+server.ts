@@ -1,7 +1,8 @@
 import Ajv from 'ajv';
-import AuthSchema from '$lib/server/schemas/auth-schema';
-import responseJson from '$src/lib/server/utils/reponse';
 import bcrypt from 'bcrypt';
+
+import AuthSchema from '$src/lib/schemas/auth-schema';
+import responseJson from '$src/lib/server/utils/reponse';
 
 export async function POST({ request }) {
   const validate = new Ajv().compile(request.body); // type of validate extends `(data: any) => data is Foo`

@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
-  import { goto } from '$app/navigation';
   import { fade } from 'svelte/transition';
+
+  import { goto } from '$app/navigation';
 
   interface Product {
     id?: number;
@@ -64,9 +65,7 @@
   let myAddedProducts: Product[] = kioskList[0].products;
   let filteredMyAddedProducts: Product[] = myAddedProducts;
 
-  $: filteredMyAddedProducts = myAddedProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  $: filteredMyAddedProducts = myAddedProducts.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
 
   function editProduct(product: Partial<Product>) {
     // 여기에 제품 수정에 대한 로직
@@ -96,9 +95,7 @@
   function handleSearch() {
     // 여기에 검색 기능 로직을 추가
     // 예: searchText를 사용하여 필터링된 제품 목록을 업데이트
-    filteredMyAddedProducts = myAddedProducts.filter((product) =>
-      product.name.toLowerCase().includes(searchText.toLowerCase()),
-    );
+    filteredMyAddedProducts = myAddedProducts.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
   }
 
   let isAddProductView = false;
@@ -161,32 +158,22 @@
   <nav class="w-1/5 bg-gray-800 p-8 text-white">
     <ul>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('dashboard')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          대시보드
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('dashboard')}> 대시보드 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('options')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          키오스크 설정
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('options')}> 키오스크 설정 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('products')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          상품 관리
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('products')}> 상품 관리 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('orders')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          주문 목록
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('orders')}> 주문 목록 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('category')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          카테고리 추가
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('category')}> 카테고리 추가 </button>
       </li>
     </ul>
-    <button on:click={logout} class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
+    <button class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300" on:click={logout}> 로그아웃 </button>
   </nav>
 
   <div class="w-4/5 p-8">
@@ -199,61 +186,42 @@
         <!-- 상품 추가 콘텐츠 -->
         <h2 class="mb-4 text-2xl font-semibold">상품 추가</h2>
         <form class="flex items-center" on:submit|preventDefault={() => addProduct(0)}>
-          <input type="text" bind:value={newProductName} class="mr-2 border p-4" placeholder="상품 이름" />
-          <input type="number" bind:value={newProductPrice} class="mr-2 border p-4" placeholder="가격" />
-          <select bind:value={newProductCategory} class="mr-2 border p-4">
+          <input class="mr-2 border p-4" placeholder="상품 이름" type="text" bind:value={newProductName} />
+          <input class="mr-2 border p-4" placeholder="가격" type="number" bind:value={newProductPrice} />
+          <select class="mr-2 border p-4" bind:value={newProductCategory}>
             {#each ['커피', '에이드', '스무디', '디저트'] as category}
               <option value={category}>{category}</option>
             {/each}
           </select>
-          <input type="file" on:change={handleFileUpload} accept="image/*" class="mr-2 border p-4" />
+          <input class="mr-2 border p-4" accept="image/*" type="file" on:change={handleFileUpload} />
           <button
             class="transform rounded bg-green-500 px-6 py-3 text-lg text-white transition duration-300 hover:scale-105 hover:shadow-md"
-            on:click={() => addProduct(0)}
-          >
+            on:click={() => addProduct(0)}>
             추가
           </button>
         </form>
         <section transition:fade>
           <div class="mt-4 flex justify-end">
-            <button
-              class="mr-2 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
-              on:click={saveChanges}
-            >
+            <button class="mr-2 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600" on:click={saveChanges}>
               저장
             </button>
-            <button
-              class="rounded bg-gray-500 px-4 py-2 text-white transition duration-300 hover:bg-gray-600"
-              on:click={cancelChanges}
-            >
+            <button class="rounded bg-gray-500 px-4 py-2 text-white transition duration-300 hover:bg-gray-600" on:click={cancelChanges}>
               취소
             </button>
           </div>
         </section>
         <!-- 상품 목록 콘텐츠 -->
         <h2 class="mb-4 text-2xl font-semibold">{kioskList[0].name} 상품 목록</h2>
-        <input
-          type="text"
-          bind:value={searchText}
-          placeholder="검색어 입력"
-          class="mb-4 border p-2"
-          on:input={handleSearch}
-        />
+        <input class="mb-4 border p-2" placeholder="검색어 입력" type="text" bind:value={searchText} on:input={handleSearch} />
         {#each filteredMyAddedProducts as product (product.id)}
           <div class="mb-4 border p-6">
             <p class="text-lg font-semibold">{product.name}</p>
             <p class="text-gray-500">가격: {product.price}원</p>
             <p class="text-gray-500">카테고리: {product.category}</p>
-            <button
-              class="rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
-              on:click={() => editProduct(product)}
-            >
+            <button class="rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600" on:click={() => editProduct(product)}>
               수정
             </button>
-            <button
-              class="rounded bg-red-500 px-4 py-2 text-white transition duration-300 hover:bg-red-600"
-              on:click={() => removeProduct(0, 0)}
-            >
+            <button class="rounded bg-red-500 px-4 py-2 text-white transition duration-300 hover:bg-red-600" on:click={() => removeProduct(0, 0)}>
               삭제
             </button>
           </div>

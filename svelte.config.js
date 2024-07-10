@@ -1,17 +1,15 @@
 import adapter from '@sveltejs/adapter-netlify';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   kit: {
     adapter: adapter(),
     alias: {
-      $src: path.resolve('./src'),
-      $assets: path.resolve('./src/assets'),
-      $components: path.resolve('./src/components'),
-      $lib: path.resolve('./src/lib'),
-      $routes: path.resolve('/src/routes'),
+      $src: './src',
+      $assets: './src/assets',
+      $components: './src/components',
+      $lib: './src/lib',
     },
   },
   preprocess: vitePreprocess(),

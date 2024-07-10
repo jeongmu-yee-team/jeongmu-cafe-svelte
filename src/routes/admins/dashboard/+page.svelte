@@ -1,7 +1,8 @@
 <script lang="ts">
+  import Chart from 'chart.js/auto';
   import { onMount, afterUpdate } from 'svelte';
   import { fade } from 'svelte/transition';
-  import Chart from 'chart.js/auto';
+
   import { goto } from '$app/navigation';
 
   interface Product {
@@ -49,9 +50,7 @@
           productDate.getDate() === currentDate.getDate() &&
           productDate.getMonth() === currentDate.getMonth() &&
           productDate.getFullYear() === currentDate.getFullYear()) ||
-        (period === 'month' &&
-          productDate.getMonth() === currentDate.getMonth() &&
-          productDate.getFullYear() === currentDate.getFullYear()) ||
+        (period === 'month' && productDate.getMonth() === currentDate.getMonth() && productDate.getFullYear() === currentDate.getFullYear()) ||
         (period === 'year' && productDate.getFullYear() === currentDate.getFullYear())
       ) {
         totalSales += product.price * (product.category || 1);
@@ -163,32 +162,22 @@
   <nav class="w-1/5 bg-gray-800 p-8 text-white">
     <ul>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('dashboard')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          대시보드
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('dashboard')}> 대시보드 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('options')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          키오스크 설정
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('options')}> 키오스크 설정 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('products')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          상품 관리
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('products')}> 상품 관리 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('orders')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          주문 목록
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('orders')}> 주문 목록 </button>
       </li>
       <li class="mb-4">
-        <button on:click={() => selectNavItem('category')} class="block rounded px-2 py-1 hover:bg-gray-600">
-          카테고리 추가
-        </button>
+        <button class="block rounded px-2 py-1 hover:bg-gray-600" on:click={() => selectNavItem('category')}> 카테고리 추가 </button>
       </li>
     </ul>
-    <button on:click={logout} class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
+    <button class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300" on:click={logout}> 로그아웃 </button>
   </nav>
 
   <div class="w-4/5 p-8">
@@ -207,7 +196,7 @@
               <p>연 매출: {calculateSalesByPeriod(products, 'year', currentDate)}원</p>
 
               <!-- 월별 매출 그래프 -->
-              <canvas bind:this={salesChartCanvas} width="400" height="200"></canvas>
+              <canvas bind:this={salesChartCanvas} height="200" width="400"></canvas>
             </div>
           {/each}
         </ul>

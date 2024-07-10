@@ -1,5 +1,9 @@
 {
-    "recommendations": [
-        "svelte.svelte-vscode"
-    ]
+  "recommendations": [
+    "svelte.svelte-vscode",
+    "ardenivanov.svelte-intellisense",
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
+  ]
 }

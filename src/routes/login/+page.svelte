@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
+
   import { goto } from '$app/navigation';
 
   let loggedIn = false;
@@ -43,28 +44,18 @@
         <h2 class="mb-4 text-2xl font-semibold">관리자 로그인</h2>
         <form>
           <div class="mb-4">
-            <label for="username" class="mb-2 block text-sm font-medium text-gray-600">ID</label>
-            <input
-              type="text"
-              id="username"
-              bind:value={username}
-              class="w-full rounded border px-3 py-2 focus:border-blue-500 focus:outline-none"
-            />
+            <label class="mb-2 block text-sm font-medium text-gray-600" for="username">ID</label>
+            <input id="username" class="w-full rounded border px-3 py-2 focus:border-blue-500 focus:outline-none" type="text" bind:value={username} />
           </div>
           <div class="mb-4">
-            <label for="password" class="mb-2 block text-sm font-medium text-gray-600">Password</label>
+            <label class="mb-2 block text-sm font-medium text-gray-600" for="password">Password</label>
             <input
-              type="password"
               id="password"
-              bind:value={password}
               class="w-full rounded border px-3 py-2 focus:border-blue-500 focus:outline-none"
-            />
+              type="password"
+              bind:value={password} />
           </div>
-          <button
-            type="button"
-            on:click={handleLogin}
-            class="w-full rounded bg-blue-500 py-2 text-white hover:bg-blue-600">로그인</button
-          >
+          <button class="w-full rounded bg-blue-500 py-2 text-white hover:bg-blue-600" type="button" on:click={handleLogin}>로그인</button>
         </form>
       </div>
     {/if}

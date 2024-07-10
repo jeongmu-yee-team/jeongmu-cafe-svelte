@@ -1,4 +1,5 @@
 import type { Prisma } from '@prisma/client';
+
 import client from '$lib/server/utils/prisma-client';
 
 export async function getProducts() {
