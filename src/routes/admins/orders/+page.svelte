@@ -119,31 +119,29 @@
     <button class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300" on:click={logout}> 로그아웃 </button>
   </nav>
 
-  <div class="w-4/5 p-8">
-    <div class="mb-8 bg-gray-800 p-4 text-white">
-      <h1 class="text-3xl font-semibold">관리자 페이지</h1>
-    </div>
-
+  <div>
     <div class="w-4/5 p-8">
-      {#if selectedNavItem === 'orders'}
-        <section class="mb-8">
-          <h2 class="mb-4 text-2xl font-semibold">주문 목록</h2>
-          {#each orders as order (order.id)}
-            <div class="mb-4 border p-6">
-              <p class="text-lg font-semibold">주문 번호: {order.id}</p>
-              <p class="text-gray-500">주문일: {order.date.toLocaleString()}</p>
-              <ul>
-                {#each order.products as product}
-                  <li>
-                    {product.name} - {product.price}원
-                  </li>
-                {/each}
-              </ul>
-              <p class="mt-2">총 주문 금액: {calculateTotalSales(order)}원</p>
-            </div>
-          {/each}
-        </section>
-      {/if}
+      <div class="w-4/5 p-8">
+        {#if selectedNavItem === 'orders'}
+          <section class="mb-8">
+            <h2 class="mb-4 text-2xl font-semibold">주문 목록</h2>
+            {#each orders as order (order.id)}
+              <div class="mb-4 border p-6">
+                <p class="text-lg font-semibold">주문 번호: {order.id}</p>
+                <p class="text-gray-500">주문일: {order.date.toLocaleString()}</p>
+                <ul>
+                  {#each order.products as product}
+                    <li>
+                      {product.name} - {product.price}원
+                    </li>
+                  {/each}
+                </ul>
+                <p class="mt-2">총 주문 금액: {calculateTotalSales(order)}원</p>
+              </div>
+            {/each}
+          </section>
+        {/if}
+      </div>
     </div>
   </div>
 </main>

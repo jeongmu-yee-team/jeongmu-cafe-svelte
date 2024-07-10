@@ -1,12 +1,22 @@
-import { type Handle, type HandleServerError } from '@sveltejs/kit';
+import type { Handle, HandleServerError } from '@sveltejs/kit';
+
+import { verifyUserSession } from '$lib/server/utils/session';
 
 export const handle: Handle = async ({ event, resolve }) => {
-  if (event.url.pathname.startsWith('/admin')) {
-    console.log('관리자 세션 로직 구현');
-    // return new Response('관리자 페이지', { status: 200 });
-  }
+  if (event.url.pathname.startsWith('/admins')) {
+    const session = event.cookies.get('usersession');
+    if (!session) {
+      return new Response(null, { status: 303, headers: { location: '/login' } });
+    }
 
-  return await resolve(event);
+    if (!verifyUserSession(session)) {
+      return new Response(null, { status: 303, headers: { location: '/login' } });
+    }
+
+    return resolve(event);
+  } else {
+    return resolve(event);
+  }
 };
 
 export const handleError: HandleServerError = async ({ event, status }) => {
