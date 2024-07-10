@@ -3,113 +3,102 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Admins {
-  id         String      @id @db.VarChar(70)
-  password   String      @db.VarChar(255)
-  admin_name String      @db.VarChar(70)
-  phone      String      @db.Char(11)
-  created_at DateTime    @default(now()) @db.Timestamp(0)
-  updated_at DateTime    @default(now()) @db.Timestamp(0)
-  admins_log AdminsLog[]
-
-  @@map("admins")
+model admins {
+  id         String       @id @db.VarChar(70)
+  password   String       @db.VarChar(255)
+  admin_name String       @db.VarChar(70)
+  phone      String       @db.Char(11)
+  created_at DateTime     @default(now()) @db.Timestamp(6)
+  updated_at DateTime     @default(now()) @db.Timestamp(6)
+  admins_log admins_log[]
 }
 
-model AdminsLog {
+model admins_log {
   id         Int      @id @default(autoincrement())
   admin_id   String   @db.VarChar(70)
   action     String?  @db.VarChar(255)
   ip         String?  @db.VarChar(15)
   agent      String?  @db.VarChar(255)
   language   String?  @db.Char(5)
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  updated_at DateTime @default(now()) @db.Timestamp(0)
-  admins     Admins   @relation(fields: [admin_id], references: [id], onDelete: NoAction, map: "admins_log_ibfk_1")
-
-  @@index([admin_id], map: "admin_id")
-  @@map("admins_log")
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  admins     admins   @relation(fields: [admin_id], references: [id], onDelete: NoAction)
 }
 
-model OptionType {
-  id              Int          @id @default(autoincrement())
-  product_type_id Int?
-  type_name       String       @unique(map: "type_name") @db.VarChar(50)
-  created_at      DateTime     @default(now()) @db.Timestamp(0)
-  updated_at      DateTime     @default(now()) @db.Timestamp(0)
-  product_type    ProductType? @relation(fields: [product_type_id], references: [id], map: "option_type_ibfk_1")
-  order_item      OrderItem[]
+model junc_option_order {
+  option_type_id Int
+  order_id       Int
+  option_type    option_type @relation(fields: [option_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order_item     order_item  @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([product_type_id], map: "product_type_id")
-  @@map("option_type")
+  @@id([option_type_id, order_id])
 }
 
-model Order {
-  id             Int         @id @default(autoincrement())
-  accept         Boolean     @default(false)
-  payment_status String      @db.VarChar(70)
-  payment_method String      @db.VarChar(70)
+model option_type {
+  id                Int                 @id @default(autoincrement())
+  product_type_id   Int?
+  type_name         String              @unique @db.VarChar(50)
+  created_at        DateTime            @default(now()) @db.Timestamp(6)
+  updated_at        DateTime            @default(now()) @db.Timestamp(6)
+  junc_option_order junc_option_order[]
+  product_type      product_type?       @relation(fields: [product_type_id], references: [id])
+  order_item        order_item[]
+}
+
+model order {
+  id             Int          @id @default(autoincrement())
+  accept         Boolean      @default(false)
+  payment_status String       @db.VarChar(70)
+  payment_method String       @db.VarChar(70)
   order_number   Int
-  created_at     DateTime    @default(now()) @db.Timestamp(0)
-  updated_at     DateTime    @default(now()) @db.Timestamp(0)
-  order_item     OrderItem[]
-
-  @@map("order")
+  created_at     DateTime     @default(now()) @db.Timestamp(6)
+  updated_at     DateTime     @default(now()) @db.Timestamp(6)
+  order_item     order_item[]
 }
 
-model OrderItem {
-  id          Int         @id @default(autoincrement())
-  order_id    Int?
-  product_id  Int?
-  option_id   Int?
-  memo        String?     @default("") @db.VarChar(255)
-  created_at  DateTime    @default(now()) @db.Timestamp(0)
-  updated_at  DateTime    @default(now()) @db.Timestamp(0)
-  product     Product?    @relation(fields: [product_id], references: [id], map: "order_item_ibfk_1")
-  option_type OptionType? @relation(fields: [option_id], references: [id], map: "order_item_ibfk_2")
-  order       Order?      @relation(fields: [order_id], references: [id], onDelete: NoAction, map: "order_item_ibfk_3")
-
-  @@index([option_id], map: "option_id")
-  @@index([order_id], map: "order_id")
-  @@index([product_id], map: "product_id")
-  @@map("order_item")
+model order_item {
+  id                Int                 @id @default(autoincrement())
+  order_id          Int?
+  product_id        Int?
+  option_id         Int?
+  memo              String?             @default("") @db.VarChar(255)
+  created_at        DateTime            @default(now()) @db.Timestamp(6)
+  updated_at        DateTime            @default(now()) @db.Timestamp(6)
+  junc_option_order junc_option_order[]
+  option_type       option_type?        @relation(fields: [option_id], references: [id])
+  order             order?              @relation(fields: [order_id], references: [id], onDelete: NoAction)
+  product           product?            @relation(fields: [product_id], references: [id])
 }
 
-model Product {
-  id                    Int          @id @default(autoincrement())
-  product_name          String       @db.VarChar(70)
-  product_thumbnail_url String?      @db.VarChar(255)
-  product_price         Int          @default(0)
-  product_type_id       Int?
-  created_at            DateTime     @default(now()) @db.Timestamp(0)
-  updated_at            DateTime     @default(now()) @db.Timestamp(0)
-  order_item            OrderItem[]
-  product_type          ProductType? @relation(fields: [product_type_id], references: [id], map: "product_ibfk_1")
-
-  @@index([product_type_id], map: "product_type_id")
-  @@map("product")
-}
-
-model ProductType {
-  id          Int          @id @default(autoincrement())
-  type_name   String       @db.VarChar(70)
-  created_at  DateTime     @default(now()) @db.Timestamp(0)
-  updated_at  DateTime     @default(now()) @db.Timestamp(0)
-  option_type OptionType[]
-  product     Product[]
-
-  @@map("product_type")
-}
-
-model PageImage {
+model page_image {
   id          Int      @id @default(autoincrement())
   image_title String?  @db.VarChar(70)
   image_url   String?  @db.VarChar(255)
-  created_at  DateTime @default(now()) @db.Timestamp(0)
-  updated_at  DateTime @default(now()) @db.Timestamp(0)
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @default(now()) @db.Timestamp(6)
+}
 
-  @@map("page_image")
+model product {
+  id                    Int           @id @default(autoincrement())
+  product_name          String        @db.VarChar(70)
+  product_thumbnail_url String?       @db.VarChar(255)
+  product_price         Int           @default(0)
+  product_type_id       Int?
+  created_at            DateTime      @default(now()) @db.Timestamp(6)
+  updated_at            DateTime      @default(now()) @db.Timestamp(6)
+  order_item            order_item[]
+  product_type          product_type? @relation(fields: [product_type_id], references: [id])
+}
+
+model product_type {
+  id          Int           @id @default(autoincrement())
+  type_name   String        @unique @db.VarChar(70)
+  created_at  DateTime      @default(now()) @db.Timestamp(6)
+  updated_at  DateTime      @default(now()) @db.Timestamp(6)
+  option_type option_type[]
+  product     product[]
 }
