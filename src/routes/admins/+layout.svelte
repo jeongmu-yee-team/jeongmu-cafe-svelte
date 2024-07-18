@@ -1,5 +1,17 @@
 <script lang="ts">
-  import SideBar from '$components/layouts/SideBar.svelte';
+  import { FlatToast, ToastContainer } from 'svelte-toasts';
+
+  import type { ToastProps } from 'svelte-toasts/types/common';
+
+  import AdminsHeader from '$components/layouts/admins/admins-header.svelte';
+  import AdminsSidebar from '$components/layouts/admins/admins-sidebar.svelte';
+
+  const toastProps: Partial<ToastProps> = {
+    placement: 'bottom-right',
+    theme: 'dark',
+    showProgress: true,
+    duration: 3500,
+  };
 </script>
 
 <svelte:head>
@@ -7,13 +19,14 @@
 </svelte:head>
 
 <div class="font-admin">
-  <header class="fixed w-full bg-gray-800 p-6 text-white">
-    <h1 class="text-2xl font-semibold">정무 카페 관리</h1>
-  </header>
+  <AdminsHeader />
   <main class="flex min-h-screen pt-20">
-    <SideBar />
-    <section class="w-full bg-gray-100 p-5">
+    <AdminsSidebar />
+    <section class="ml-[15%] w-full bg-gray-50 p-10">
       <slot>Admin Contents</slot>
     </section>
+    <ToastContainer {...toastProps} let:data>
+      <FlatToast {data} />
+    </ToastContainer>
   </main>
 </div>

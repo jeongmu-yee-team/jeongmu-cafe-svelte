@@ -1,93 +1,119 @@
 <script lang="ts">
-  import { createMutation, createQuery } from '@tanstack/svelte-query';
+  import { createQuery } from '@tanstack/svelte-query';
+  import { onMount } from 'svelte';
 
-  import type { IProductSchema } from '$lib/schemas/product-schema';
-  import type { IAdminProductsGET, IAdminProductsUnified } from '$src/routes/api/admins/products/+server';
+  import ProductsDialog from './products-dialog.svelte';
+  import ProductsTable from './products-table.svelte';
 
-  import Button from '$components/button.svelte';
-  import Loading from '$components/loading.svelte';
-  import SearchForm from '$components/search-form.svelte';
-  import TableView from '$components/table-view.svelte';
+  import type { ProductOrderByType, ProductSortType } from '$lib/server/modules/products';
+  import type { IProductsWithTypeBySearchProps } from '$lib/server/modules/products';
+  import type { TAdminProductsGET } from '$routes/api/admins/products/+server';
+  import type { Selected } from 'bits-ui';
 
-  let method: 'POST' | 'PUT' | 'DELETE' = 'POST';
-  let endpoint = '/api/admins/products';
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
+  import SearchForm from '$components/customs/search-form.svelte';
+  import ErrorMessage from '$components/layouts/error-message.svelte';
+  import Loading from '$components/layouts/loading.svelte';
+  import * as Select from '$components/ui/select';
+  import queryFunction from '$lib/client/query-function';
 
-  let formData: IProductSchema = {
-    product_id: -1,
-    product_name: '',
-    product_thumbnail_url: '',
-    product_price: -1,
-    product_type_id: -1,
+  export let data;
+
+  const orderByArray: Selected<string>[] = [
+    { value: 'product_name', label: '상품명 기준' },
+    { value: 'created_at', label: '등록일 기준' },
+  ] as const;
+
+  let pageLoading: boolean = true;
+  let productTypes: Selected<number>[] = [];
+  let searchQuery: IProductsWithTypeBySearchProps = {
+    keyword: data.keyword,
+    size: Number(data.size),
+    page: Number(data.page),
+    orderby: data.orderby as ProductOrderByType,
+    sort: data.sort as ProductSortType,
   };
+  let toggleState: boolean = false;
 
-  let selectedProductId: number = -1;
-
-  const products = createQuery<IAdminProductsGET>({
-    queryKey: ['products'],
-    queryFn: async () => await fetch(endpoint).then((res) => res.json()),
-  });
-  const useProducts = createMutation<IAdminProductsUnified>({
-    mutationFn: async () =>
-      await fetch(endpoint, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      }).then((res) => res.json()),
+  // eslint-disable-next-line max-len
+  $: endpoint = `/api/admins/products?keyword=${data.keyword}&type=${data.type}&size=${data.size}&page=${data.page}&orderby=${data.orderby}&sort=${data.sort}`;
+  const { getFetch } = queryFunction<TAdminProductsGET>(endpoint);
+  const products = createQuery<TAdminProductsGET>({
+    queryKey: [endpoint],
+    queryFn: () => getFetch(endpoint),
   });
 
-  // 검색 컴포넌트 만들기
-  // 키(검색key): 값(key에 대한 한글명)
-  // ex) created_at: '등록일순'
+  $: if ($products.data) {
+    if ($products.data.product_type) {
+      productTypes = $products.data.product_type.map((item) => {
+        return { value: item.id, label: item.type_name };
+      });
+    }
+  }
 
-  // 테이블 컴포넌트
+  onMount(() => {
+    pageLoading = false;
+  });
+
+  async function SubmitQuery() {
+    const newUrl = new URL($page.url.pathname, $page.url.origin);
+    newUrl.searchParams.set('keyword', data.keyword);
+    newUrl.searchParams.set('type', String(searchQuery.type || '') || data.type);
+    newUrl.searchParams.set('size', data.size);
+    newUrl.searchParams.set('page', String(searchQuery.page || '') || data.page);
+    newUrl.searchParams.set('orderby', data.orderby);
+    newUrl.searchParams.set('sort', data.sort);
+    newUrl.searchParams.sort();
+    await goto(newUrl, { replaceState: true, noScroll: true });
+    await $products.refetch();
+  }
+
+  function handleOnTypeSelectedChange(event: Selected<string> | undefined) {
+    if (event) {
+      searchQuery.type = Number(event.value) || 'none';
+      searchQuery.page = 1;
+      SubmitQuery();
+    }
+  }
+
+  function handleOnClickToggle(toggle: boolean) {
+    toggleState = toggle;
+  }
 </script>
 
-{#if $products.data}
+{#if $products.data && $products.data.products && !pageLoading}
   <article>
     <h1 class="text-2xl font-semibold">상품 관리</h1>
   </article>
-  <div class="flex flex-col gap-4 p-10">
-    <div>
-      <span class="mr-4 text-xl font-bold">상품 보기창</span>
-      <Button color="green" textcolor="white">상품 등록</Button>
-    </div>
-    <div class="border border-gray-300 p-5">
-      <form class="flex gap-5">
-        <div>
-          <label class="block" for="product_name">상품명</label>
-          <input
-            id="product_name"
-            class="rounded-lg border border-gray-300 p-2 outline-none focus:border-blue-400"
-            minlength={2}
-            placeholder="상품명"
-            required
-            type="text" />
-        </div>
-        <div>
-          <label class="block" for="product_type">상품유형</label>
-          <select
-            id="product_type"
-            class="rounded-lg border border-gray-300 p-2 outline-none focus:border-blue-400"
-            placeholder="상품유형"
-            required
-            bind:value={formData.product_type_id}>
-            {#each $products.data.product_types as product_type}
-              <option value={product_type.id}>{product_type.type_name}</option>
-            {/each}
-          </select>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div>{$products.data.message}</div>
-  <SearchForm />
-  <TableView />
-{:else}
+  <SearchForm inputPlaceholder="상품명 검색" orderBySelect={orderByArray} refetch={$products.refetch}>
+    <Select.Root slot="select_add1" onSelectedChange={handleOnTypeSelectedChange} selected={{ value: 'none', label: '상품 유형 선택' }}>
+      <Select.Trigger class="w-[8rem] whitespace-nowrap">
+        <Select.Value placeholder="상품 유형 선택" />
+      </Select.Trigger>
+      <Select.Content>
+        <Select.Group>
+          <Select.Item label="선택 없음" value="none">선택 없음</Select.Item>
+          {#each productTypes as productType}
+            <Select.Item class="whitespace-nowrap" label={productType.label} value={productType.value}>{productType.label}</Select.Item>
+          {/each}
+        </Select.Group>
+      </Select.Content>
+    </Select.Root>
+  </SearchForm>
+  <ProductsTable SSR_data={data} {productTypes} {products} />
+  <ProductsDialog dialogType="post" onClickDialog={handleOnClickToggle} {productTypes} tableProducts={products} toggle={toggleState} />
+{:else if $products.isPending || $products.isFetching}
   <div class="flex h-full w-full items-center justify-center">
     <div class="h-20 w-20">
       <Loading />
     </div>
+  </div>
+{:else if !$products.data?.ok}
+  <div class="relative h-full w-full">
+    <ErrorMessage>
+      <h1 slot="title" class="text-xl font-bold">잘못된 쿼리 요청</h1>
+      <p slot="description">쿼리 요청을 수정하거나 제거 후 시도하십시오.</p>
+    </ErrorMessage>
   </div>
 {/if}

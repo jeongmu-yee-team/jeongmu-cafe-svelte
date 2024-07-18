@@ -2,14 +2,17 @@
   import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query';
 
   import { browser } from '$app/environment';
-  import '$src/app.css';
+  import '../app.css';
 
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: true,
-        refetchInterval: 5000,
-        staleTime: 10000,
+        refetchIntervalInBackground: false,
+        refetchOnMount: 'always',
+        retryDelay: 2000,
+        refetchInterval: 10000,
+        staleTime: 5000,
         enabled: browser,
       },
     },

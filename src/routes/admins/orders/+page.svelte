@@ -97,7 +97,9 @@
   }
 </script>
 
-<main class="flex min-h-screen bg-gray-200">
+<div>order</div>
+
+<!-- <main class="flex min-h-screen bg-gray-200">
   <nav class="w-1/5 bg-gray-800 p-8 text-white">
     <ul>
       <li class="mb-4">
@@ -144,4 +146,4 @@
       </div>
     </div>
   </div>
-</main>
+</main> -->

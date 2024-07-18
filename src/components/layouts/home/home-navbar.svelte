@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { TProductType } from '$lib/server/modules/products';
+  import type { TReadAllProductType } from '$lib/server/modules/products';
 
-  export let productTypeList: TProductType;
+  export let productTypeList: TReadAllProductType;
   export let selectedType: number;
   export let onClickTypeChange: (typeId: number) => void;
 </script>

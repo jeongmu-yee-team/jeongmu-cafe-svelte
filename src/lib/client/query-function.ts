@@ -1,5 +1,5 @@
-export default function queryFunction<T>(api: string) {
-  async function getFetch(apiUri: string = api) {
+export default function queryFunction<T = unknown>(api: string) {
+  async function getFetch<ResponseType = T>(apiUri: string = api) {
     const response = await fetch(apiUri, {
       method: 'GET',
       mode: 'same-origin',
@@ -7,11 +7,11 @@ export default function queryFunction<T>(api: string) {
         'Content-Type': 'application/json',
       },
     });
-    const data = (await response.json()) as T;
+    const data = (await response.json()) as ResponseType;
     return data;
   }
 
-  async function postFetch(formData: object, apiUri: string = api) {
+  async function postFetch<ResponseType = T>(formData: object, apiUri: string = api) {
     const response = await fetch(apiUri, {
       method: 'POST',
       mode: 'same-origin',
@@ -20,11 +20,11 @@ export default function queryFunction<T>(api: string) {
       },
       body: JSON.stringify(formData),
     });
-    const data = (await response.json()) as T;
+    const data = (await response.json()) as ResponseType;
     return data;
   }
 
-  async function putFetch(formData: object, apiUri: string = api) {
+  async function putFetch<ResponseType = T>(formData: object, apiUri: string = api) {
     const response = await fetch(apiUri, {
       method: 'PUT',
       mode: 'same-origin',
@@ -33,11 +33,11 @@ export default function queryFunction<T>(api: string) {
       },
       body: JSON.stringify(formData),
     });
-    const data = (await response.json()) as T;
+    const data = (await response.json()) as ResponseType;
     return data;
   }
 
-  async function patchFetch(formData?: object, apiUri: string = api) {
+  async function patchFetch<ResponseType = T>(formData?: object, apiUri: string = api) {
     const response = await fetch(apiUri, {
       method: 'PATCH',
       mode: 'same-origin',
@@ -46,11 +46,11 @@ export default function queryFunction<T>(api: string) {
       },
       body: JSON.stringify(formData),
     });
-    const data = (await response.json()) as T;
+    const data = (await response.json()) as ResponseType;
     return data;
   }
 
-  async function deleteFetch(formData?: object, apiUri: string = api) {
+  async function deleteFetch<ResponseType = T>(formData?: object, apiUri: string = api) {
     const response = await fetch(apiUri, {
       method: 'DELETE',
       mode: 'same-origin',
@@ -59,7 +59,7 @@ export default function queryFunction<T>(api: string) {
       },
       body: JSON.stringify(formData),
     });
-    const data = (await response.json()) as T;
+    const data = (await response.json()) as ResponseType;
     return data;
   }
 
