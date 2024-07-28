@@ -1,7 +1,6 @@
 <script lang="ts">
   import Chart from 'chart.js/auto';
   import { onMount } from 'svelte';
-  import { fade } from 'svelte/transition';
 
   interface Product {
     id?: number;
@@ -27,8 +26,6 @@
   let salesChartCanvas: HTMLCanvasElement | undefined;
 
   let selectedNavItem = 'dashboard'; // 초기 선택 항목을 설정
-
-  onMount(() => {});
 
   let products: Product[] = kioskList[0].products; // 추가
 
@@ -106,28 +103,10 @@
   });
 </script>
 
-<div>
+<div>dashboard</div>
+
+<!-- <div>
   <main class="flex min-h-screen bg-gray-200">
-    <nav class="w-1/5 bg-gray-800 p-8 text-white">
-      <ul>
-        <li class="mb-4">
-          <button class="block rounded px-2 py-1 hover:bg-gray-600"> 대시보드 </button>
-        </li>
-        <li class="mb-4">
-          <button class="block rounded px-2 py-1 hover:bg-gray-600"> 키오스크 설정 </button>
-        </li>
-        <li class="mb-4">
-          <button class="block rounded px-2 py-1 hover:bg-gray-600"> 상품 관리 </button>
-        </li>
-        <li class="mb-4">
-          <button class="block rounded px-2 py-1 hover:bg-gray-600"> 주문 목록 </button>
-        </li>
-        <li class="mb-4">
-          <button class="block rounded px-2 py-1 hover:bg-gray-600"> 카테고리 추가 </button>
-        </li>
-      </ul>
-      <button class="mt-4 rounded bg-red-500 p-2 text-white hover:text-gray-300"> 로그아웃 </button>
-    </nav>
     <div class="w-4/5 p-8">
       <div class="w-4/5 p-8">
         {#if selectedNavItem === 'dashboard'}
@@ -138,8 +117,6 @@
                 <p>일 매출: {calculateSalesByPeriod(products, 'day', currentDate)}원</p>
                 <p>월 매출: {calculateSalesByPeriod(products, 'month', currentDate)}원</p>
                 <p>연 매출: {calculateSalesByPeriod(products, 'year', currentDate)}원</p>
-
-                <!-- 월별 매출 그래프 -->
                 <canvas bind:this={salesChartCanvas} height="200" width="400"></canvas>
               </div>
             {/each}
@@ -157,4 +134,4 @@
       </div>
     </div>
   </main>
-</div>
+</div> -->

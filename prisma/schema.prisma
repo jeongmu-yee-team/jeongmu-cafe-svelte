@@ -90,6 +90,8 @@ model product {
   product_type_id       Int?
   created_at            DateTime      @default(now()) @db.Timestamp(6)
   updated_at            DateTime      @default(now()) @db.Timestamp(6)
+  sequence              Int?
+  is_display            Boolean       @default(false)
   order_item            order_item[]
   product_type          product_type? @relation(fields: [product_type_id], references: [id])
 }

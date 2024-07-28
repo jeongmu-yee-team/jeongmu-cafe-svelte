@@ -17,5 +17,4 @@ export async function getOrderItem() {
   });
 }
 
-/* Return Type */
 export type TOrderItem = Prisma.PromiseReturnType<typeof getOrderItem>;
