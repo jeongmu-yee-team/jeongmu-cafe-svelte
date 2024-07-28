@@ -30,14 +30,13 @@ export function dataURLtoFile(dataUrl: string, fileName: string) {
   return new File([u8arr], fileName, { type: mime ? mime[1] : '' });
 }
 
-
 export function isDataURL(dataUrl: unknown): dataUrl is string {
-  if(typeof dataUrl !== 'string') {
+  if (typeof dataUrl !== 'string') {
     return false;
   }
   const arr = dataUrl.split(',');
   const encode = arr[0].split(';');
-  if(encode[1] !== 'base64') {
+  if (encode[1] !== 'base64') {
     return false;
   }
   return true;

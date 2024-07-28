@@ -7,7 +7,6 @@ type RequestBodyType = {
   fileName: string;
 };
 
-
 export async function POST({ cookies, request }) {
   const checkSession = checkSessionResponse(cookies.get('usersession'));
   if (checkSession) {
