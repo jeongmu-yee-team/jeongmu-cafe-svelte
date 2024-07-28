@@ -152,7 +152,8 @@
             <input class="mr-2 border p-4" placeholder="카테고리 이름" type="text" bind:value={newCategoryName} />
             <button
               class="transform rounded bg-green-500 px-6 py-3 text-lg text-white transition duration-300 hover:scale-105 hover:shadow-md"
-              on:click={addCategory}>
+              on:click={addCategory}
+            >
               추가
             </button>
           </form>

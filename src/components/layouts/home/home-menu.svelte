@@ -1,16 +1,16 @@
 <script lang="ts">
   import { Splide, SplideSlide } from '@splidejs/svelte-splide';
 
-  import type { TProducts } from '$lib/server/modules/products';
-  import type { ICartItem } from '$src/routes/home/+page';
+  import type { TReadAllProducts } from '$lib/server/modules/products';
+  import type { ICartItem } from '$routes/home/home-type';
 
-  import Card from '$components/cards/Card.svelte';
+  import Card from '$components/customs/card.svelte';
 
-  export let productList: TProducts;
+  export let productList: TReadAllProducts;
   export let selectedType: number;
   export let onApplyItem: (product: ICartItem) => void;
 
-  let productSlide: TProducts[] = [];
+  let productSlide: TReadAllProducts[] = [];
   let pageSize: number = 9;
 
   $: if (productList) {

@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  import type { ICartItem } from '$src/routes/home/+page';
+  import type { ICartItem } from '$routes/home/home-type';
 
   export let selectedCartItem: ICartItem[];
   export let onRemoveItem: (productName: string) => void;
 
-  let padding = 'p-16'; // 기본값
+  let padding = 'p-16';
 
   onMount(() => {
     function updatePadding() {
@@ -58,7 +58,8 @@
           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m-5 4a2 2 0 100-4 2 2 0 000 4zm-6 0a2 2 0 11-4 0 2 2 0 014 0zm6-16V5m0 0V1m0 4h2m-2 0H9m2 0c0 1.105-.895 2-2 2H5a2 2 0 01-2-2V1h6z"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="2" />
+          stroke-width="2"
+        />
       </svg>
       <p class="mt-2 text-lg font-semibold text-gray-700">장바구니가 비어 있습니다.</p>
     </div>

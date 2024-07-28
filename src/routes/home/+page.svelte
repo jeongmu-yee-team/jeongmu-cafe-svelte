@@ -1,13 +1,13 @@
 <script lang="ts">
   import { createQuery } from '@tanstack/svelte-query';
 
-  import type { IProductsGET } from '$src/routes/api/products/+server';
-  import type { ICartItem } from '$src/routes/home/+page';
+  import type { IProductsGET } from '$routes/api/products/+server';
+  import type { ICartItem } from '$routes/home/home-type';
 
-  import HomeMenu from '$src/components/layouts/home/home-menu.svelte';
-  import HomeNavbar from '$src/components/layouts/home/home-navbar.svelte';
-  import HomeOrder from '$src/components/layouts/home/home-order.svelte';
-  import queryFunction from '$src/lib/client/query-function';
+  import HomeMenu from '$components/layouts/home/home-menu.svelte';
+  import HomeNavbar from '$components/layouts/home/home-navbar.svelte';
+  import HomeOrder from '$components/layouts/home/home-order.svelte';
+  import queryFunction from '$lib/client/query-function';
 
   let productsData: IProductsGET;
   let selectedProductType: number;
@@ -15,10 +15,7 @@
 
   const endpoint = '/api/products';
   const { getFetch } = queryFunction<IProductsGET>(endpoint);
-  const queryData = createQuery<IProductsGET>({
-    queryKey: [endpoint],
-    queryFn: () => getFetch(),
-  });
+  const queryData = createQuery<IProductsGET>({ queryKey: [endpoint], queryFn: () => getFetch() });
 
   $: if ($queryData.data) {
     selectedProductType = $queryData.data.product_type[0].id;
